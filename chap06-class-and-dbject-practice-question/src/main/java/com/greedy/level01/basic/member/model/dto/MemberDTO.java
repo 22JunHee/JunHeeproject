@@ -17,6 +17,8 @@ public class MemberDTO {
 
     private String email;
 
+
+
     public String getId() {
         return id;
     }
