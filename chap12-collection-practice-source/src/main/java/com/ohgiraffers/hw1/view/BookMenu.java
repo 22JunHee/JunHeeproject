@@ -13,7 +13,7 @@ public class BookMenu {
     private BookManager bm;
 
     public BookMenu(){
-
+        bm = new BookManager();
 
     }
     int choice;
@@ -30,27 +30,29 @@ public class BookMenu {
         System.out.println("6. 끝내기 ");
         System.out.print("메뉴를 선택하세요 : ");
         int choice = sc.nextInt();
+        sc.nextLine();
 
         switch (choice){
             case 1 :
                 System.out.println("새 도서를 추가를 선택하셨습니다.");
-                inputBook();
+                bm.addBook(inputBook());
                 break;
             case 2 :
                 System.out.println("도서정보 정렬 후 출력을 선택하셨습니다.");
-                bm.printBookList(selectSortedBook());
+                selectSortedBook();
                 break;
             case 3 :
                 System.out.println("도서 삭제를 선택하셨습니다 ");
-                inputBookNo();
+                bm.deleteBook(inputBookNo());
                 break;
             case 4 :
                 System.out.println("도서 검색을 선택하셨습니다");
-                inputBookTitle();
+                bm.searchBook(inputBookTitle());
                 break;
             case 5 :
                 System.out.println("전체 출력을 선택하셨습니다.");
                 bm.displayAll();
+                break;
             case 6 :
                 System.out.println("프로그램을 종료합니다.");
                 return;
@@ -68,43 +70,62 @@ public class BookMenu {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     public BookDTO inputBook(){
+        System.out.print("추가하실 책의 번호를 입력해주세요 : ");
+        int bNo = sc.nextInt();
+        System.out.print("추가 하실 도서 장르 ( 1 : 인문 / 2 : 자연과학 / 3 : 의료 / 4: 기타) 를 선택하세요. : ");
+        int category = sc.nextInt();
+        System.out.print("추가하실 책의 제목을 입력해주세요 : ");
+        String title = sc.next();
+        System.out.print("추가하실 책의 저자명을 입력해주세요 : ");
+        String author = sc.next();
+
+        BookDTO bookDTO = new BookDTO();
+
+        bookDTO.setbNo(bNo);
+        bookDTO.setCategory(category);
+        bookDTO.setTitle(title);
+        bookDTO.setAuthor(author);
+
+        System.out.println("추가하신 도서는" + bookDTO + "입니다.");
 
 
-        return null;
+        return bookDTO;
     }
 
-    public String inputBookNo(){
+    public int inputBookNo(){
         System.out.print("삭제할 도서 번호를 입력하세요:");
         int index = sc.nextInt();
-        bm.deleteBook(index);
+        sc.nextLine();
 
 
-        return null;
+
+        return index;
     }
 
     public String inputBookTitle(){
+        System.out.print("검색할 도서 제목을 입력해주세요. : ");
+        String title = sc.nextLine();
 
-        return null;
+        return title;
     }
 
     public List<BookDTO> selectSortedBook(){
 
-        return null;
+        System.out.println("1. 도서번호로 오름차순 정렬");
+        System.out.println("2. 도서번호로 내림차순 정렬");
+        System.out.println("3. 책 제목으로 오름차순 정렬");
+        System.out.println("4. 책 제목으로 내림차순 정렬");
+
+        System.out.println("도서 정렬 방식을 선택해주세요.");
+        int no = sc.nextInt();
+
+        List<BookDTO> bookList = bm.sortedBookList(no);
+        bm.printBookList(bookList);
+        return bookList;
+
     }
 
 }
